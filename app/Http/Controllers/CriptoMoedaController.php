@@ -61,9 +61,15 @@ class CriptoMoedaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(criptoMoeda $criptoMoeda)
+    public function show(criptoMoeda $id)
     {
-        //
+        $regBook = criptoMoeda::find($id);
+
+        if($regBook){
+            return "Cripto Moeda localizada: ".$regBook.Response()->json([], Response::HTTP_NO_CONTENT);
+        }else{
+            return "Cripto moeda não localizada ".Response()->json([], Response::HTTP_NO_CONTENT);
+        }
     }
 
     /**
@@ -77,8 +83,27 @@ class CriptoMoedaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(criptoMoeda $criptoMoeda)
+    public function destroy($id)
     {
-        //
+        $regBook = criptoMoeda::find($id);
+
+        if(!$regBook) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'cripto não encontrada'
+            ], 404);
+        }
+        
+        if($regBook->delete()) {
+            return response()->json([
+                'succes' => true,
+                'message' => 'cripto deletada com sucesso'
+            ], 200);
+        }
+
+        return response()->json([
+            'succes' => false,
+            'message' => 'Erro ao deletar a criptomoeda'
+        ], 500);
     }
 }

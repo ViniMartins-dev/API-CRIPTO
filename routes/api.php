@@ -12,3 +12,9 @@ Route::get('/user', function (Request $request) {
 Route::post('/cripto', [CriptoMoedaController::class,'store']);
 
 Route::get('/cripto', [CriptoMoedaController::class,'index']);
+
+Route::post('/cripto/{id}', [CriptoMoedaController::class,'show']);
+
+Route::get('/cripto/{id}', [CriptoMoedaController::class,'update']);
+
+Route::get('/cripto/{id}', [CriptoMoedaController::class,'destroy']);
