@@ -11,22 +11,27 @@ use Illuminate\Support\Facades\Validator;
 
 class CriptoMoedaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+    public function index(){
         $regBook = criptoMoeda::All();
         $contador = $regBook->count();
 
-        return Response()->json($regBook);
+
+        if($contador > 0) {
+            return response()->json([
+                'succes' => true,
+                'message' => 'Cripto encontradas com sucesso',
+                'data' => $regBook,
+                'total' => $contador
+            ], 200);
+        } else {
+            return respons()->json([
+                'succes' => false,
+                'message' => 'Nenhuma cripto encontrada',
+            ], 404);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'sigla' => 'required',
             'nome' => 'required',
@@ -58,33 +63,28 @@ class CriptoMoedaController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(criptoMoeda $id)
-    {
+    public function show($id){
         $regBook = criptoMoeda::find($id);
 
         if($regBook){
-            return "Cripto Moeda localizada: ".$regBook.Response()->json([], Response::HTTP_NO_CONTENT);
+            return response()->json([
+                'succes' => true,
+                'message' => 'Cripto localizada com sucesso',
+                'data' => $regBook
+            ], 200);
         }else{
-            return "Cripto moeda não localizada ".Response()->json([], Response::HTTP_NO_CONTENT);
+            return response()->json([
+                'succes' => false,
+                'message' => 'Cripto não localizada'
+            ], 404);
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, criptoMoeda $criptoMoeda)
-    {
+    public function update(Request $request, criptoMoeda $criptoMoeda){
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
+    public function destroy($id){
         $regBook = criptoMoeda::find($id);
 
         if(!$regBook) {
