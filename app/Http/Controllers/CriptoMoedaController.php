@@ -46,13 +46,13 @@ class CriptoMoedaController extends Controller
             ], 400);
         }
 
-        $registros = CriptoMoeda::create($request->all());
+        $regBook = CriptoMoeda::create($request->all());
 
-        if($registros) {
+        if($regBook) {
             return response()->json([
                 'sucess' => true,
                 'message' => 'Cripto cadastrada com sucesso!',
-                'data' => $registros
+                'data' => $regBook
             ], 201);
 
         }else {
@@ -80,8 +80,38 @@ class CriptoMoedaController extends Controller
         }
     }
 
-    public function update(Request $request, criptoMoeda $criptoMoeda){
-        //
+    public function update(Request $request, string $id){
+        $validator = Validator::make($request->all(), [
+            'sigla' => 'required',
+            'nome' => 'required',
+            'valor' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'succes' => false,
+                'message' => 'Registros inválidos',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $regBook->sigla = $request->sigla;
+        $regBook->nome = $request->nome;
+        $regBook->valor = $request->valor;
+
+        if($regBook->save()){
+            return response()->json([
+                'succes' => true,
+                'message' => 'Cripto atualizada com sucesso',
+                'data' => $regBook
+            ], 200);
+        } else {
+            return response()->json([
+                'succes' => false,
+                'message' => 'Erro ao atualizar cripto'
+            ], 500);
+        }
+        
     }
 
     public function destroy($id){
@@ -89,21 +119,21 @@ class CriptoMoedaController extends Controller
 
         if(!$regBook) {
             return response()->json([
-                'succes' => false,
+                'success' => false,
                 'message' => 'cripto não encontrada'
             ], 404);
-        }
-        
-        if($regBook->delete()) {
-            return response()->json([
-                'succes' => true,
-                'message' => 'cripto deletada com sucesso'
-            ], 200);
-        }
 
-        return response()->json([
-            'succes' => false,
-            'message' => 'Erro ao deletar a criptomoeda'
-        ], 500);
+            if($regBook->delete()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'cripto deletada'
+                ], 200);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Erro ao deletar cripto'
+            ], 500);
+        }
     }
 }
