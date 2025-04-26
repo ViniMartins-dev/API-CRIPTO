@@ -20,4 +20,17 @@ class CriptomoedaController extends Controller
         return view('criptomoeda.index', ['criptos' => $data['data'] ?? [], 'message' => $data['message'] ?? '']);
 
     }
+
+    public function store(Request $request) {
+        
+        Http::post($this->urlAPI, $request->only('sigla', 'nome', 'valor'));
+
+        return redirect()->route('criptomoeda.index');
+    }
+
+    public function create() {
+
+        return view('criptomoeda.create');
+    }
+
 }
