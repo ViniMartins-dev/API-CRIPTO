@@ -3,6 +3,8 @@
 
     <h1>Lista de cripto moedas</h1>
     
+    <a href="{{ route('criptomoeda.create') }}" class="btn btn-primary" >Cadastrar</a>
+
     @if(count($criptos)) 
         <table class="table">
             <thead>
