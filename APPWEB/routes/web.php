@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CriptomoedaController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',  [CriptomoedaController::class, 'index'])->name('criptomoeda.index');

@@ -8,6 +8,7 @@
 
     </head>
     <body>
+
         <div class="container mt-4"> 
 
             @yield('content')

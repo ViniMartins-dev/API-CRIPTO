@@ -9,7 +9,7 @@ class CriptomoedaController extends Controller
 {
     //endpoint api
     
-    private $urlAPI = "http://localhost:8001/api/cripto/";
+    private $urlAPI = "http://127.0.0.1:8001/api/cripto";
 
     //função pra retornar a view com os dados entregues da api
 
