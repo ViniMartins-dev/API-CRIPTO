@@ -33,4 +33,20 @@ class CriptomoedaController extends Controller
         return view('criptomoeda.create');
     }
 
+    public function edit($id) {
+        $response = Http::get("$this->urlAPI/$id");
+        $cripto = $response->json() ['data'] ?? null;
+        return view('criptomoeda.edit', compact('cripto'));
+
+    }
+
+    public function update(Request $request, $id) {
+        Http::put("$this->urlAPI/$id", $request->only('sigla', 'nome', 'valor'));
+        return redirect()->route('criptomoeda.index');
+    }
+
+    public function destroy($id) {
+        Http::delete("$this->urlAPI/$id");
+        return redirect()->route('criptomoeda.index');
+    }
 }
